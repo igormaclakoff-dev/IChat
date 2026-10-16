@@ -1,0 +1,86 @@
+name: IChat
+version: '${project.version}'
+api-version: '1.21'
+main: com.auracode.ichat.IChatPlugin
+authors: [AuraCode]
+description: Современные каналы чата, личные сообщения, упоминания и инструменты модерации.
+website: https://github.com/igormaclakoff-dev
+softdepend:
+  - PlaceholderAPI
+
+commands:
+  ichat:
+    description: Команда управления IChat.
+    usage: /ichat <help|reload|version>
+    aliases: [ic]
+    permission: ichat.admin
+  msg:
+    description: Отправить личное сообщение.
+    usage: /msg <игрок> <сообщение>
+    aliases: [m, tell, whisper, w]
+  r:
+    description: Ответить на последнее личное сообщение.
+    usage: /r <сообщение>
+    aliases: [reply]
+  socialspy:
+    description: Переключить SocialSpy (личные сообщения).
+    usage: /socialspy
+    aliases: [ss]
+    permission: ichat.socialspy
+  commandspy:
+    description: Переключить CommandSpy
+    usage: /commandspy
+    aliases: [cs]
+    permission: ichat.commandspy
+  clearchat:
+    description: Очистить чат
+    usage: /clearchat
+    aliases: [cc]
+    permission: ichat.clearchat
+  afk:
+    description: Переключить статус AFK
+    usage: /afk
+    permission: ichat.afk
+  chat:
+    description: Переключить общий чат
+    usage: /chat <on|off>
+    aliases: [ch]
+    permission: ichat.chat.toggle
+
+permissions:
+  ichat.admin:
+    description: Доступ к управлению IChat
+    default: op
+  ichat.chatcolor:
+    description: Позволяет форматирование MiniMessage в чате
+    default: op
+  ichat.msg:
+    description: Позволяет отправлять личные сообщения
+    default: true
+  ichat.socialspy:
+    description: Позволяет переключать SocialSpy
+    default: op
+  ichat.commandspy:
+    description: Позволяет переключать CommandSpy
+    default: op
+  ichat.clearchat:
+    description: Позволяет очищать чат
+    default: op
+  ichat.afk:
+    description: Позволяет использовать AFK
+    default: true
+  ichat.chat.toggle:
+    description: Позволяет переключать общий чат
+    default: op
+  ichat.chat.bypass:
+    description: Позволяет писать при отключённом общем чате
+    default: op
+  ichat.commandcontrol.bypass:
+    description: Обходит ограничения команд
+    default: op
+  ichat.commanddelay.reduce:
+    description: Снижает задержки команд
+    default: false
+  ichat.commanddelay.bypass:
+    description: Обходит задержки команд
+    default: op

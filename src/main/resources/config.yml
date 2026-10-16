@@ -1,0 +1,166 @@
+# ============================================================
+#  IChat  —  от AuraCode
+# ============================================================
+#  Современные каналы чата, личные сообщения, упоминания и
+#  инструменты модерации для Paper 1.21.x.
+#
+#  Настройки и сообщения команд находятся в commands.yml.
+#  Перезагрузить всё: /ichat reload.
+#
+#  IChat использует MiniMessage.
+#  HEX:       <#8A5CF6>текст</#8A5CF6>
+#  Градиент:  <gradient:#8A5CF6:#FF7000>текст</gradient>
+#  Жирный:    <bold>текст</bold>
+#  Курсив:    <italic>текст</italic>
+#
+#  Основные плейсхолдеры:
+#    %player%         - имя игрока
+#    %displayname%    - отображаемое имя игрока
+#    %display_name%   - псевдоним предыдущего
+#    %message%        - текст сообщения
+#
+#  Плейсхолдеры PlaceholderAPI поддерживаются при наличии плагина.
+# ============================================================
+
+# ============================================================
+#  ВЗАИМОДЕЙСТВИЕ С ИГРОКОМ
+# ============================================================
+#  Всплывающая подсказка и клик по никам игроков в чате.
+#  action: suggest-message подставляет /msg <игрок>.
+
+player-interaction:
+  hover:
+    enabled: true
+    text:
+      - "<gradient:#8A5CF6:#FF7000><bold>%player%</bold></gradient>"
+      - "<gray>Игрок на этом сервере</gray>"
+      - ""
+      - "<gray>Нажмите, чтобы написать сообщение</gray>"
+  click:
+    enabled: true
+    action: "suggest-message"
+
+# ============================================================
+#  УПОМИНАНИЯ
+# ============================================================
+#  Упомяните игрока через @имя. Можно упомянуть нескольких
+#  игроков в одном сообщении. Разрешены цифры и подчёркивания.
+#  Игрок получает уведомление, только если он действительно
+#  получил исходное сообщение. Упоминания самого себя игнорируются.
+
+mentions:
+  enabled: true
+  format: "<#FF7000>@%player%</#FF7000>"
+  notifications:
+    enabled: true
+    message: "<#8A5CF6>◆</#8A5CF6> <gray><white>%player%</white> упомянул вас.</gray>"
+    offline: "<yellow>⚠</yellow> <gray>Игрок <white>%player%</white> не в сети.</gray>"
+    not-found: "<red>◆</red> <gray>Игрок <white>%player%</white> не найден.</gray>"
+    sound:
+      enabled: true
+      name: "ENTITY_EXPERIENCE_ORB_PICKUP"
+      volume: 1.0
+      pitch: 1.0
+
+# ============================================================
+#  КАНАЛЫ
+# ============================================================
+#  Каналы создаются автоматически из раздела channels.
+#  Добавьте новый канал без изменения кода, затем выполните
+#  /ichat reload.
+#
+#  mode:
+#    local   - сообщение получают только игроки рядом
+#    global  - сообщение получают все подходящие игроки
+#    command - канал вызывается собственной командой
+#
+#  trigger    - символ-сокращение, вводимый в обычном чате
+#  command    - команда канала без '/'
+#  aliases    - дополнительные имена команд
+#  permission - право на использование/получение канала
+#  radius     - радиус локального канала в блоках
+#  format     - внешний вид сообщения
+
+channels:
+  local:
+    enabled: true
+    mode: "local"
+    trigger: ""
+    command: ""
+    aliases: []
+    permission: ""
+    radius: 100
+    format: "<#8A5CF6>Ⓛ</#8A5CF6> <#8A5CF6>%player%</#8A5CF6> <gray>»</gray> <white>%message%</white>"
+    unheard-message:
+      enabled: true
+      message: "<red>⚠</red> <gray>Вас никто рядом не услышал.</gray>"
+
+  global:
+    enabled: true
+    mode: "global"
+    trigger: "!"
+    command: ""
+    aliases: []
+    permission: ""
+    radius: 0
+    format: "<#FF7000>Ⓖ</#FF7000> <#FF7000>%player%</#FF7000> <gray>»</gray> <white>%message%</white>"
+
+  admin:
+    enabled: true
+    mode: "command"
+    trigger: ""
+    command: "ac"
+    aliases:
+      - "adminchat"
+    permission: "ichat.admin"
+    radius: 0
+    format: "<gradient:#FF5252:#B71C1C>◆ АДМИН</gradient> <#FF5252>%player%</#FF5252> <gray>»</gray> <white>%message%</white>"
+
+  donate:
+    enabled: true
+    mode: "command"
+    trigger: ""
+    command: "dc"
+    aliases:
+      - "donatechat"
+    permission: "ichat.donate"
+    radius: 0
+    format: "<gradient:#FFD54F:#FF8F00>◆ ДОНАТ</gradient> <#FF7000>%player%</#FF7000> <gray>»</gray> <white>%message%</white>"
+
+# Добавьте собственные каналы здесь. Пример:
+#
+# vip:
+#   enabled: true
+#   mode: "command"
+#   trigger: ""
+#   command: "vip"
+#   aliases:
+#     - "v"
+#   permission: "ichat.vip"
+#   radius: 0
+#   format: "<#FFD54F>◆ VIP</#FFD54F> <#8A5CF6>%player%</#8A5CF6> <gray>»</gray> <white>%message%</white>"
+#
+# После /ichat reload появятся команды /vip и /v,
+# а автодополнение подхватит канал автоматически.
+
+# ============================================================
+#  ЦВЕТНОЙ ЧАТ
+# ============================================================
+#  Игрок с правом ниже может использовать MiniMessage и
+#  HEX прямо в своих сообщениях.
+#  Пример: <#8A5CF6>Привет!</#8A5CF6>
+
+chat-color:
+  enabled: true
+  permission: "ichat.chatcolor"
+
+# ============================================================
+#  "ВАС НИКТО НЕ УСЛЫШАЛ"
+# ============================================================
+#  Показывается, если после фильтрации канала сообщение не
+#  получил ни один другой игрок. Можно отключить глобально
+#  и включать только для отдельных каналов.
+
+unheard-message:
+  enabled: true
+  message: "<red>⚠</red> <gray>Вас никто не услышал.</gray>"

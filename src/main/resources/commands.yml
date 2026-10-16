@@ -1,0 +1,188 @@
+# ============================================================
+#  IChat  —  от AuraCode
+# ============================================================
+#  Настройки и сообщения команд.
+#
+#  Плейсхолдеры MiniMessage поддерживаются.
+#  Форматы могут быть многострочными: каждая запись списка —
+#  отдельная строка. Перезагрузка: /ichat reload.
+# ============================================================
+
+commands:
+
+  # ============================================================
+  #  КАНАЛЫ-КОМАНДЫ
+  # ============================================================
+  #  Сообщения для каналов, вызываемых командами (см. config.yml).
+
+  channel:
+    messages:
+      no-permission: "<red>◆</red> <gray>Вы не можете использовать этот канал.</gray>"
+      usage: "<red>◆</red> <gray>Использование: <white>/%command% <сообщение></white></gray>"
+
+  # ============================================================
+  #  ЛИЧНЫЕ СООБЩЕНИЯ
+  # ============================================================
+  #  /msg <игрок> <сообщение>   псевдонимы: /m, /message
+  #  /r <сообщение>             псевдоним:   /reply
+  #
+  #  Плейсхолдеры: %sender% / %sender_displayname%
+  #                %recipient% / %recipient_displayname%
+  #                %message%
+
+  msg:
+    enabled: true
+    permission: "ichat.msg"
+    messages:
+      player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
+      disabled: "<red>◆</red> <gray>Личные сообщения отключены.</gray>"
+      no-permission: "<red>◆</red> <gray>Вам запрещено использовать личные сообщения.</gray>"
+      usage: "<red>◆</red> <gray>Использование: <white>/msg <игрок> <сообщение></white></gray>"
+      player-not-found: "<red>◆</red> <gray>Игрок <white>%player%</white> не найден или не в сети.</gray>"
+      self: "<red>◆</red> <gray>Нельзя писать самому себе.</gray>"
+      format:
+        outgoing:
+          - "<#8A5CF6>◆ ЛС</#8A5CF6> <gray>→ %recipient%</gray>"
+          - "<gray>%message%</gray>"
+        incoming:
+          - "<#8A5CF6>◆ ЛС</#8A5CF6> <gray>← %sender%</gray>"
+          - "<gray>%message%</gray>"
+      notifications:
+        sound:
+          enabled: true
+          name: "ENTITY_EXPERIENCE_ORB_PICKUP"
+          volume: 1.0
+          pitch: 1.0
+        click:
+          enabled: true
+          hover: "<gray>Нажмите, чтобы ответить</gray>"
+
+  r:
+    enabled: true
+    messages:
+      player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
+      disabled: "<red>◆</red> <gray>Ответы отключены.</gray>"
+      no-permission: "<red>◆</red> <gray>Вы не можете использовать личные сообщения.</gray>"
+      usage: "<red>◆</red> <gray>Использование: <white>/r <сообщение></white></gray>"
+      no-target: "<red>◆</red> <gray>Некому отвечать.</gray>"
+      target-offline: "<red>◆</red> <gray>Этот игрок сейчас не в сети.</gray>"
+
+  # ============================================================
+  #  SOCIALSPY  —  /socialspy  псевдоним: /ss
+  # ============================================================
+
+  socialspy:
+    enabled: true
+    permission: "ichat.socialspy"
+    messages:
+      player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
+      no-permission: "<red>◆</red> <gray>У вас нет доступа к SocialSpy.</gray>"
+      enabled: "<#8A5CF6>◆ SS</#8A5CF6> <gray>включён.</gray>"
+      disabled: "<#8A5CF6>◆ SS</#8A5CF6> <gray>выключен.</gray>"
+    format: "<#8A5CF6>◆ SS</#8A5CF6> <gray>%sender% → %recipient%:</gray> <gray>%message%</gray>"
+
+  # ============================================================
+  #  COMMANDSPY  —  /commandspy  псевдоним: /cs
+  # ============================================================
+
+  commandspy:
+    enabled: true
+    permission: "ichat.commandspy"
+    messages:
+      player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
+      no-permission: "<red>◆</red> <gray>У вас нет доступа к CommandSpy.</gray>"
+      enabled: "<#8A5CF6>◆ CS</#8A5CF6> <gray>включён.</gray>"
+      disabled: "<#8A5CF6>◆ CS</#8A5CF6> <gray>выключен.</gray>"
+    format: "<#8A5CF6>◆ CS</#8A5CF6> <gray>%player% →</gray> <gray>%command%</gray>"
+
+  # ============================================================
+  #  КОНТРОЛЬ КОМАНД
+  # ============================================================
+  #  whitelist: разрешены только перечисленные команды.
+  #  blacklist: запрещены только перечисленные команды.
+  #  Задержки задаются в секундах простой картой:
+  #    spawn: 5
+  #    home: 10
+  #
+  #  ichat.commanddelay.reduce - снижает задержку до reduced-seconds.
+  #  ichat.commanddelay.bypass - полностью снимает задержку.
+
+  command-control:
+    bypass-permission: "ichat.commandcontrol.bypass"
+
+    messages:
+      not-whitelisted: "<red>◆</red> <gray>Эта команда запрещена.</gray>"
+      blacklisted: "<red>◆</red> <gray>Эта команда заблокирована.</gray>"
+      cooldown: "<red>◆</red> <gray>Подождите <white>%seconds%</white> сек.</gray>"
+
+    whitelist-enabled: false
+    whitelist:
+      - "msg"
+      - "r"
+      - "spawn"
+
+    blacklist-enabled: false
+    blacklist:
+      - "op"
+      - "stop"
+
+    delays:
+      spawn: 5
+      home: 10
+
+    delay-permissions:
+      bypass: "ichat.commanddelay.bypass"
+      reduce: "ichat.commanddelay.reduce"
+      reduced-seconds: 2
+
+  # ============================================================
+  #  ОЧИСТКА ЧАТА  —  /clearchat  псевдоним: /cc
+  # ============================================================
+
+  clearchat:
+    enabled: true
+    permission: "ichat.clearchat"
+    messages:
+      player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
+      no-permission: "<red>◆</red> <gray>Вы не можете очистить чат.</gray>"
+      success: "<#8A5CF6>◆</#8A5CF6> <gray>Чат очищен.</gray>"
+
+  # ============================================================
+  #  AFK
+  # ============================================================
+  #  Движение автоматически снимает AFK.
+  #  Получение личного сообщения не снимает AFK.
+  #  Отправитель уведомляется, если получатель в AFK.
+
+  afk:
+    enabled: true
+    permission: "ichat.afk"
+    status-suffix: " <gray>[AFK]</gray>"
+    tab-marker: " &7[AFK]"
+    messages:
+      player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
+      no-permission: "<red>◆</red> <gray>У вас нет доступа к AFK.</gray>"
+      enabled: "<#8A5CF6>◆</#8A5CF6> <gray>Вы отошли от клавиатуры.</gray>"
+      disabled: "<#8A5CF6>◆</#8A5CF6> <gray>Вы снова активны.</gray>"
+      sender-notice: "<yellow>◆</yellow> <gray>Сообщение отправлено. <white>%player%</white> сейчас AFK.</gray>"
+
+  # ============================================================
+  #  УПРАВЛЕНИЕ ЧАТОМ  —  /chat  псевдоним: /ch
+  # ============================================================
+  #  /chat            - показать текущее состояние
+  #  /chat on / off   - включить / отключить общий чат
+  #  право bypass позволяет писать при отключённом чате.
+
+  chat:
+    enabled: true
+    permission: "ichat.chat.toggle"
+    bypass-permission: "ichat.chat.bypass"
+    messages:
+      player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
+      no-permission: "<red>◆</red> <gray>Вы не можете управлять чатом.</gray>"
+      usage: "<red>◆</red> <gray>Использование: <white>/chat <on|off></white></gray>"
+      enabled: "<green>◆</green> <gray>Чат включён.</gray>"
+      disabled: "<red>◆</red> <gray>Чат отключён.</gray>"
+      status-enabled: "<green>◆</green> <gray>Чат сейчас включён.</gray>"
+      status-disabled: "<red>◆</red> <gray>Чат сейчас отключён.</gray>"
+      blocked: "<red>◆</red> <gray>Общий чат сейчас отключён.</gray>"
