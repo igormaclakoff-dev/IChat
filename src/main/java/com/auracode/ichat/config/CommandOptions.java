@@ -12,7 +12,7 @@ import java.util.List;
 public final class CommandOptions {
 
     private final IChatPlugin plugin;
-    private YamlConfiguration config;
+    private volatile YamlConfiguration config;
 
     public CommandOptions(IChatPlugin plugin) {
         this.plugin = plugin;

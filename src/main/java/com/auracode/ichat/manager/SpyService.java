@@ -20,7 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class SpyService implements Listener {
 
     private static final Set<String> IGNORED_COMMANDS = Set.of(
-            "socialspy", "ss", "commandspy", "cs", "ichat", "ic");
+            "socialspy", "ss", "commandspy", "cs", "ichat", "ic",
+            "msg", "m", "tell", "whisper", "w", "r", "reply");
 
     private final IChatPlugin plugin;
     private final Set<UUID> socialSpies = ConcurrentHashMap.newKeySet();

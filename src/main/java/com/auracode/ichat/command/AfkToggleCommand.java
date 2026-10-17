@@ -24,6 +24,11 @@ public final class AfkToggleCommand implements CommandExecutor {
                     "<red>◆</red> <gray>Команду может использовать только игрок.</gray>");
             return true;
         }
+        if (!plugin.getCommandSettings().bool("commands.afk.enabled", true)) {
+            plugin.getChatRenderer().send(player, "commands.afk.messages.feature-disabled",
+                    "<red>◆</red> <gray>AFK отключён.</gray>");
+            return true;
+        }
         String permission = plugin.getCommandSettings().string("commands.afk.permission", "ichat.afk");
         if (!permission.isEmpty() && !player.hasPermission(permission)) {
             plugin.getChatRenderer().send(player, "commands.afk.messages.no-permission",

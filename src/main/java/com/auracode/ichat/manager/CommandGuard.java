@@ -38,6 +38,13 @@ public final class CommandGuard implements Listener {
             return;
         }
         String command = raw.substring(1).split("\\s+", 2)[0].toLowerCase(Locale.ROOT);
+        int namespace = command.indexOf(':');
+        if (namespace >= 0) {
+            command = command.substring(namespace + 1);
+        }
+        if (isOwnCommand(command)) {
+            return;
+        }
 
         if (plugin.getCommandSettings().bool("commands.command-control.whitelist-enabled", false)
                 && !isListed("commands.command-control.whitelist", command)) {
@@ -87,6 +94,14 @@ public final class CommandGuard implements Listener {
             return;
         }
         playerCooldowns.put(command, now + seconds * 1000L);
+    }
+
+    private boolean isOwnCommand(String command) {
+        if (plugin.getChannelRegistry().byCommand(command) != null) {
+            return true;
+        }
+        org.bukkit.command.PluginCommand pluginCommand = plugin.getServer().getPluginCommand(command);
+        return pluginCommand != null && pluginCommand.getPlugin().equals(plugin);
     }
 
     private boolean isListed(String path, String command) {

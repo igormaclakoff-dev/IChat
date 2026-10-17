@@ -26,6 +26,11 @@ public final class SpyToggleCommand implements CommandExecutor {
                     "<red>◆</red> <gray>Команду может использовать только игрок.</gray>");
             return true;
         }
+        if (!plugin.getCommandSettings().bool(root() + ".enabled", true)) {
+            plugin.getChatRenderer().send(player, root() + ".messages.feature-disabled",
+                    "<red>◆</red> <gray>Эта функция отключена.</gray>");
+            return true;
+        }
         String permission = plugin.getCommandSettings().string(root() + ".permission",
                 social ? "ichat.socialspy" : "ichat.commandspy");
         if (!permission.isEmpty() && !player.hasPermission(permission)) {

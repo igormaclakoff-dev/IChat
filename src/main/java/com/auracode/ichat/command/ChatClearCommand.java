@@ -1,6 +1,7 @@
 package com.auracode.ichat.command;
 
 import com.auracode.ichat.IChatPlugin;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,15 +23,21 @@ public final class ChatClearCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!plugin.getCommandSettings().bool("commands.clearchat.enabled", true)) {
+            plugin.getChatRenderer().send(sender, "commands.clearchat.messages.feature-disabled",
+                    "<red>◆</red> <gray>Очистка чата отключена.</gray>");
+            return true;
+        }
         String permission = plugin.getCommandSettings().string("commands.clearchat.permission", "ichat.clearchat");
         if (!permission.isEmpty() && !sender.hasPermission(permission)) {
             plugin.getChatRenderer().send(sender, "commands.clearchat.messages.no-permission",
                     "<red>◆</red> <gray>Вы не можете очистить чат.</gray>");
             return true;
         }
+        Component blank = Component.text(" ");
         for (Player player : Bukkit.getOnlinePlayers()) {
             for (int line = 0; line < BLANK_LINES; line++) {
-                player.sendMessage(" ");
+                player.sendMessage(blank);
             }
         }
         plugin.getChatRenderer().send(sender, "commands.clearchat.messages.success",

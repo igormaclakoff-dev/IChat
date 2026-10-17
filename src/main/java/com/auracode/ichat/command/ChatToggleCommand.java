@@ -24,6 +24,11 @@ public final class ChatToggleCommand implements CommandExecutor {
                     "<red>◆</red> <gray>Команду может использовать только игрок.</gray>");
             return true;
         }
+        if (!plugin.getCommandSettings().bool("commands.chat.enabled", true)) {
+            plugin.getChatRenderer().send(player, "commands.chat.messages.feature-disabled",
+                    "<red>◆</red> <gray>Управление чатом отключено.</gray>");
+            return true;
+        }
         String permission = plugin.getCommandSettings().string("commands.chat.permission", "ichat.chat.toggle");
         if (!permission.isEmpty() && !player.hasPermission(permission)) {
             plugin.getChatRenderer().send(player, "commands.chat.messages.no-permission",

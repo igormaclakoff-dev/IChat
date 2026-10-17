@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 public final class ChatState {
 
     private final IChatPlugin plugin;
-    private boolean enabled = true;
+    private volatile boolean enabled = true;
 
     public ChatState(IChatPlugin plugin) {
         this.plugin = plugin;

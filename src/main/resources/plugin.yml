@@ -75,6 +75,9 @@ permissions:
   ichat.chat.bypass:
     description: Позволяет писать при отключённом общем чате
     default: op
+  ichat.donate:
+    description: Доступ к донат-каналу чата
+    default: false
   ichat.commandcontrol.bypass:
     description: Обходит ограничения команд
     default: op

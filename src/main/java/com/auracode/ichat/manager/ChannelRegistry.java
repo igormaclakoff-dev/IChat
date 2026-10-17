@@ -6,7 +6,6 @@ import com.auracode.ichat.model.ChannelMode;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,7 +14,7 @@ import java.util.List;
 public final class ChannelRegistry {
 
     private final IChatPlugin plugin;
-    private final List<Channel> channels = new ArrayList<>();
+    private volatile List<Channel> channels = List.of();
 
     public ChannelRegistry(IChatPlugin plugin) {
         this.plugin = plugin;
@@ -23,18 +22,19 @@ public final class ChannelRegistry {
     }
 
     public void load() {
-        channels.clear();
         ConfigurationSection section = plugin.getConfig().getConfigurationSection("channels");
         if (section == null) {
             plugin.getLogger().warning("В config.yml отсутствует секция 'channels'.");
             return;
         }
+        List<Channel> loaded = new ArrayList<>();
         for (String id : section.getKeys(false)) {
             ConfigurationSection node = section.getConfigurationSection(id);
             if (node != null) {
-                channels.add(read(id, node));
+                loaded.add(read(id, node));
             }
         }
+        this.channels = List.copyOf(loaded);
         plugin.getLogger().info("Загружено каналов: " + channels.size() + ".");
     }
 
@@ -94,6 +94,6 @@ public final class ChannelRegistry {
     }
 
     public List<Channel> all() {
-        return Collections.unmodifiableList(channels);
+        return channels;
     }
 }

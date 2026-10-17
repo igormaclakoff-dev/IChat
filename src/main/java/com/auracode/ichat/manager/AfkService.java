@@ -2,6 +2,7 @@ package com.auracode.ichat.manager;
 
 import com.auracode.ichat.IChatPlugin;
 import io.papermc.paper.event.player.AsyncChatEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -42,9 +43,15 @@ public final class AfkService implements Listener {
     }
 
     private void becomeActive(Player player) {
-        if (afk.remove(player.getUniqueId())) {
-            plugin.getChatRenderer().send(player, "commands.afk.messages.disabled",
-                    "<#8A5CF6>◆</#8A5CF6> <gray>Вы снова активны.</gray>");
+        if (!afk.remove(player.getUniqueId())) {
+            return;
+        }
+        Runnable notice = () -> plugin.getChatRenderer().send(player, "commands.afk.messages.disabled",
+                "<#8A5CF6>◆</#8A5CF6> <gray>Вы снова активны.</gray>");
+        if (Bukkit.isPrimaryThread()) {
+            notice.run();
+        } else {
+            Bukkit.getScheduler().runTask(plugin, notice);
         }
     }
 

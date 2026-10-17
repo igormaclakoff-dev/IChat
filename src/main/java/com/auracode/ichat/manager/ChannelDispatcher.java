@@ -7,8 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
- * Delivers a message to every recipient of a channel. Used by command-driven
- * channels where no {@code AsyncChatEvent} is involved.
+ * Delivers a message to every recipient of a channel. Used both by
+ * command-driven channels and by the chat listener after chat is captured.
  */
 public final class ChannelDispatcher {
 
@@ -43,6 +43,7 @@ public final class ChannelDispatcher {
                 }
             }
         }
+        Bukkit.getConsoleSender().sendMessage(rendered);
         plugin.getMentionManager().notifyMentions(content, sender, channel);
         if (recipients == 0) {
             plugin.getChatRenderer().notifyUnheard(sender, channel);

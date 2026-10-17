@@ -1,13 +1,13 @@
 package com.auracode.ichat.command;
 
 import com.auracode.ichat.IChatPlugin;
+import com.auracode.ichat.util.Sounds;
 import com.auracode.ichat.util.Text;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -134,6 +133,7 @@ public final class MessageCommand implements CommandExecutor {
                 && plugin.getCommandSettings().bool("commands.msg.notifications.click.enabled", true);
         String hover = plugin.getCommandSettings().string(
                 "commands.msg.notifications.click.hover", "<gray>Нажмите, чтобы ответить</gray>");
+        String body = sanitize(sender, message);
 
         for (String line : lines) {
             String formatted = line
@@ -141,7 +141,7 @@ public final class MessageCommand implements CommandExecutor {
                     .replace("%sender_displayname%", plain(sender))
                     .replace("%recipient%", target.getName())
                     .replace("%recipient_displayname%", plain(target))
-                    .replace("%message%", message);
+                    .replace("%message%", body);
             formatted = plugin.getPlaceholders().apply(recipient, formatted);
             Component component = plugin.getChatRenderer().parse(formatted);
             if (clickable) {
@@ -162,11 +162,18 @@ public final class MessageCommand implements CommandExecutor {
                 "commands.msg.notifications.sound.name", "ENTITY_EXPERIENCE_ORB_PICKUP");
         float volume = (float) plugin.getCommandSettings().doubleValue("commands.msg.notifications.sound.volume", 1.0D);
         float pitch = (float) plugin.getCommandSettings().doubleValue("commands.msg.notifications.sound.pitch", 1.0D);
-        try {
-            player.playSound(player.getLocation(), Sound.valueOf(name.toUpperCase(Locale.ROOT)), volume, pitch);
-        } catch (IllegalArgumentException ignored) {
-            // Unknown sound name configured - silently skip.
+        Sounds.play(player, name, volume, pitch);
+    }
+
+    private String sanitize(Player sender, String message) {
+        if (!plugin.getSettings().chatColorEnabled()) {
+            return Text.stripTags(message);
         }
+        String permission = plugin.getSettings().chatColorPermission();
+        if (permission != null && !permission.isEmpty() && !sender.hasPermission(permission)) {
+            return Text.stripTags(message);
+        }
+        return message;
     }
 
     private boolean hasPermission(Player player) {

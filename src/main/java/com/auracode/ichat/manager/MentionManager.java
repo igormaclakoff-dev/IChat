@@ -2,18 +2,17 @@ package com.auracode.ichat.manager;
 
 import com.auracode.ichat.IChatPlugin;
 import com.auracode.ichat.model.Channel;
+import com.auracode.ichat.util.Sounds;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,7 +57,8 @@ public final class MentionManager {
                 }
             }
             final Component replacement = mentionComponent;
-            result = result.replaceText(builder -> builder.matchLiteral(mention).replacement(replacement));
+            Pattern matchPattern = Pattern.compile(Pattern.quote(mention), Pattern.CASE_INSENSITIVE);
+            result = result.replaceText(builder -> builder.match(matchPattern).replacement(replacement));
         }
         return result;
     }
@@ -88,8 +88,8 @@ public final class MentionManager {
                     }
                     continue;
                 }
-                OfflinePlayer offline = Bukkit.getOfflinePlayer(name);
-                if (offline.hasPlayedBefore()) {
+                OfflinePlayer offline = Bukkit.getOfflinePlayerIfCached(name);
+                if (offline != null && offline.hasPlayedBefore()) {
                     sendStatus(sender, plugin.getSettings().mentionOfflineMessage(), name);
                 } else {
                     sendStatus(sender, plugin.getSettings().mentionNotFoundMessage(), name);
@@ -138,10 +138,6 @@ public final class MentionManager {
         String name = plugin.getSettings().mentionSoundName();
         float volume = plugin.getSettings().mentionSoundVolume();
         float pitch = plugin.getSettings().mentionSoundPitch();
-        try {
-            player.playSound(player.getLocation(), Sound.valueOf(name.toUpperCase(Locale.ROOT)), volume, pitch);
-        } catch (IllegalArgumentException ignored) {
-            // Unknown sound name configured - silently skip.
-        }
+        Sounds.play(player, name, volume, pitch);
     }
 }

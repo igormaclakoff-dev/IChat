@@ -77,6 +77,7 @@ commands:
     messages:
       player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
       no-permission: "<red>◆</red> <gray>У вас нет доступа к SocialSpy.</gray>"
+      feature-disabled: "<red>◆</red> <gray>SocialSpy отключён.</gray>"
       enabled: "<#8A5CF6>◆ SS</#8A5CF6> <gray>включён.</gray>"
       disabled: "<#8A5CF6>◆ SS</#8A5CF6> <gray>выключен.</gray>"
     format: "<#8A5CF6>◆ SS</#8A5CF6> <gray>%sender% → %recipient%:</gray> <gray>%message%</gray>"
@@ -91,6 +92,7 @@ commands:
     messages:
       player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
       no-permission: "<red>◆</red> <gray>У вас нет доступа к CommandSpy.</gray>"
+      feature-disabled: "<red>◆</red> <gray>CommandSpy отключён.</gray>"
       enabled: "<#8A5CF6>◆ CS</#8A5CF6> <gray>включён.</gray>"
       disabled: "<#8A5CF6>◆ CS</#8A5CF6> <gray>выключен.</gray>"
     format: "<#8A5CF6>◆ CS</#8A5CF6> <gray>%player% →</gray> <gray>%command%</gray>"
@@ -145,6 +147,7 @@ commands:
     messages:
       player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
       no-permission: "<red>◆</red> <gray>Вы не можете очистить чат.</gray>"
+      feature-disabled: "<red>◆</red> <gray>Очистка чата отключена.</gray>"
       success: "<#8A5CF6>◆</#8A5CF6> <gray>Чат очищен.</gray>"
 
   # ============================================================
@@ -162,6 +165,7 @@ commands:
     messages:
       player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
       no-permission: "<red>◆</red> <gray>У вас нет доступа к AFK.</gray>"
+      feature-disabled: "<red>◆</red> <gray>AFK отключён.</gray>"
       enabled: "<#8A5CF6>◆</#8A5CF6> <gray>Вы отошли от клавиатуры.</gray>"
       disabled: "<#8A5CF6>◆</#8A5CF6> <gray>Вы снова активны.</gray>"
       sender-notice: "<yellow>◆</yellow> <gray>Сообщение отправлено. <white>%player%</white> сейчас AFK.</gray>"
@@ -180,6 +184,7 @@ commands:
     messages:
       player-only: "<red>◆</red> <gray>Команду может использовать только игрок.</gray>"
       no-permission: "<red>◆</red> <gray>Вы не можете управлять чатом.</gray>"
+      feature-disabled: "<red>◆</red> <gray>Управление чатом отключено.</gray>"
       usage: "<red>◆</red> <gray>Использование: <white>/chat <on|off></white></gray>"
       enabled: "<green>◆</green> <gray>Чат включён.</gray>"
       disabled: "<red>◆</red> <gray>Чат отключён.</gray>"
